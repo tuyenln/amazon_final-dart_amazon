@@ -14,3 +14,6 @@ dev_dependencies:
   test: ^1.21.0
 dependencies:
   puppeteer: ^2.24.0
+  dart_jsonwebtoken: ^2.7.1
+  http: ^0.13.5
+  dotenv: ^4.1.0

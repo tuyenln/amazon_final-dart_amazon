@@ -1,6 +1,8 @@
+import 'package:dart_amazon/authen/generation_token.dart';
 import 'package:dart_amazon/dart_amazon.dart';
 import 'package:puppeteer/puppeteer.dart';
 import 'dart:math';
+import 'package:dotenv/dotenv.dart';
 
 void main() async {
   final browser = await puppeteer.launch(
@@ -59,8 +61,12 @@ void main() async {
   bool flagCate = false;
   bool flagProduct = false;
   bool childFlag = true;
+  bool isAuthenticated = false;
 
-  flagCate = await clickCategory(page);
+  isAuthenticated = await authentication('test@gmail.com');
+  if (isAuthenticated == true) {
+    flagCate = await clickCategory(page);
+  }
 
   if (flagCate == true) {
     flagProduct = await clickProductDetail(page);
