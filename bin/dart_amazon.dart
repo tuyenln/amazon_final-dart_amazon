@@ -42,8 +42,34 @@ void main() async {
 
   await page.goto('https://www.amazon.com');
 
-  await page.waitForSelector(
-      'a[href*="/s?"]:not([hidden]):not([aria-hidden="true"])');
+  await page.waitForSelector('a[href*="/s?"]:not([hidden]):not([aria-hidden="true"])');
+
+  await page.goto('https://www.amazon.com/gp/sign-in.html');
+
+  await Future.delayed(Duration(seconds: 6));
+  var env = DotEnv(includePlatformEnvironment: true)..load();
+  var email = env['email'];
+  var password = env['password'];
+
+  // Enter email
+  await page.type('#ap_email', '$email');
+
+  await page.click('#continue');
+
+  await Future.delayed(Duration(seconds: 6));
+
+  // Enter password
+  await page.type('#ap_password', '$password');
+
+  await Future.delayed(Duration(seconds: 6));
+
+  // Submit the form
+  await page.click('#signInSubmit');
+
+  // Wait for the page to load
+  await page.waitForNavigation();
+
+  await Future.delayed(Duration(seconds: 15));
 
   // Scroll down to the bottom of the page
   // await page.evaluate('window.scrollTo(0, document.body.scrollHeight -300)');
@@ -63,7 +89,7 @@ void main() async {
   bool childFlag = true;
   bool isAuthenticated = false;
 
-  isAuthenticated = await authentication('test@gmail.com');
+  isAuthenticated = await authentication('$email');
   if (isAuthenticated == true) {
     flagCate = await clickCategory(page);
   }
